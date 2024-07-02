@@ -7,9 +7,10 @@ const titulo= document.querySelector('.app__title');
 const botones= document.querySelectorAll('.app__card-button');
 const inputEnfoqueMusica = document.querySelector('#alternar-musica');
 const musica = new Audio('./sonidos/luna-rise-part-one.mp3');
+const botonIniciarPausar= document.querySelector('#start-pause');
 
-
-let tiempoTranscurridoEnSegundos = 5
+let tiempoTranscurridoEnSegundos = 5;
+let IdIntervalo = null;
 
 musica.loop=true;
 
@@ -66,3 +67,27 @@ botonLargo.addEventListener('click',()=>{
     }
 } 
 
+const cuentaRegresiva = () => {
+    if(tiempoTranscurridoEnSegundos <=0){   //CUANDO LLEGUE A CERO PASARA..
+        reiniciar();                        //DETENER EL TEMPORIZADOR
+        alert('Tiempo final');              //MOSTRAR MENSAJE DE SE ACABO
+        return;                             //SALIMOS DE CUENTA REGRESIVA
+    }
+    tiempoTranscurridoEnSegundos -= 1       //VA RESTANDO EL TIEMPO
+    console.log("Temporizador:" + tiempoTranscurridoEnSegundos); //VA MOSTRANDO EL TIEMPO RESTANTE
+}
+
+botonIniciarPausar.addEventListener('click',iniciarPausar); //ESTAMOS EN ESPERA DE QUE DE CLICK EN PAUSAR PARA INICIAR FUNCION
+
+function iniciarPausar(){   //CREACION DE FUNCION PARA INICIAR Y DADO CASO PAUSAR
+    if(IdIntervalo){        //SI HAY UN TEMPORIZADOR EN MARCHA
+        reiniciar();        //DETER EL TEMPORIZADOR
+        return;             //SALIMOS DE LA FUNCION
+    }    
+    IdIntervalo = setInterval(cuentaRegresiva,1000) //  SI NO HAY TEMPORIZADOR, SE INICIA UNO
+}
+
+function reiniciar(){  //SE CREA LA FUNCION PARA DETENER
+    clearInterval(IdIntervalo)  // DETIENE EL TEMPORIZADOR ES DECIR DETIENE A "setInterval"
+    IdIntervalo=null    //RESTABLECE PARA INDICAR QUE NO HAY TEMPORIZADOR EN MARCHA
+}
