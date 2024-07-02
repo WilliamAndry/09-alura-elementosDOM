@@ -1,25 +1,49 @@
-const hmtl = document.querySelector('html')
-const botonCorto = document.querySelector('.app__card-button--corto')
-const botonEnfoque = document.querySelector('.app__card-button--enfoque')
-const botonLargo = document.querySelector('.app__card-button--largo')
-const banner = document.querySelector('.app__image')
-const titulo= document.querySelector('.app__title')
+const hmtl = document.querySelector('html');
+const botonCorto = document.querySelector('.app__card-button--corto');
+const botonEnfoque = document.querySelector('.app__card-button--enfoque');
+const botonLargo = document.querySelector('.app__card-button--largo');
+const banner = document.querySelector('.app__image');
+const titulo= document.querySelector('.app__title');
+const botones= document.querySelectorAll('.app__card-button');
+const inputEnfoqueMusica = document.querySelector('#alternar-musica');
+const musica = new Audio('./sonidos/luna-rise-part-one.mp3');
+
+
+let tiempoTranscurridoEnSegundos = 5
+
+musica.loop=true;
+
+inputEnfoqueMusica.addEventListener('change',()=> {
+    if(musica.paused){
+        musica.play()
+    }else{
+        musica.pause()
+    }
+})
 
  botonCorto.addEventListener('click',()=>{
-    cambiarContexto('descanso-corto')
+    cambiarContexto('descanso-corto');
+    botonCorto.classList.add('active');
 })
 
 botonEnfoque.addEventListener('click',()=>{
-    cambiarContexto('enfoque')
+    cambiarContexto('enfoque');
+    botonEnfoque.classList.add('active');
 })
 
 botonLargo.addEventListener('click',()=>{
-    cambiarContexto('descanso-largo')
+    cambiarContexto('descanso-largo');
+    botonLargo.classList.add('active');
 })
 
  function cambiarContexto(contexto){
-    hmtl.setAttribute('data-contexto',contexto)
-    banner.setAttribute('src',`./imagenes/${contexto}.png`)
+
+    botones.forEach(function(contexto){
+        contexto.classList.remove('active');
+    })
+
+    hmtl.setAttribute('data-contexto',contexto);
+    banner.setAttribute('src',`./imagenes/${contexto}.png`);
 
     switch(contexto){
         case 'enfoque':
@@ -37,7 +61,8 @@ botonLargo.addEventListener('click',()=>{
         case 'descanso-largo':
             titulo.innerHTML=
             `Hora de volver a la superficie
-                <strong class="app__title-strong">Haz una paua larga.</strong>`
+                <strong class="app__title-strong">Haz una pausa larga.</strong>`
         break;
     }
 } 
+
